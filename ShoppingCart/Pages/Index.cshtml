@@ -1,0 +1,36 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Webshop";
+}
+@* <p>Er brugeren logget ind? @User.Identity.IsAuthenticated</p>
+<p>Bruger-ID: @User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value</p> *@
+
+<div class="grid-2 mt-4">
+    <div>
+        <h1 class="mb-3">Produkter</h1>
+        <div class="list-group">
+            @foreach (var prod in Model.Products)
+            {
+                <div class="list-item">
+                    <div>
+                        <h3 style="font-size: 1.1rem; margin-bottom: 0.25rem;">@prod.ProductName</h3>
+                        <p class="text-muted">@prod.Price.ToString("C")</p>
+                    </div>
+                    <form method="post" asp-page-handler="AddToCart">
+                        <input type="hidden" name="ProductId" value="@prod.ProductId" />
+                        <button type="submit" class="btn btn-success">Læg i kurv</button>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+    <div>
+        <div class="card">
+            <h3 style="margin-bottom: 1rem;">Din Kurv</h3>
+            <p style="margin-bottom: 0.5rem;">Antal varer: <strong>@Model.Cart.CartItems.Sum(i => i.Quantity)</strong></p>
+            <p style="margin-bottom: 1.25rem;">Total: <strong>@Model.Cart.TotalPrice.ToString("C")</strong></p>
+            <a href="/Cart" class="btn btn-primary" style="display: block; text-align: center;">Gå til kurv</a>
+        </div>
+    </div>
+</div>

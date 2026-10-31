@@ -1,0 +1,45 @@
+﻿@page
+@model ShoppingCart.Pages.Checkout.Step1Model
+@{
+    ViewData["Title"] = "Checkout - Oplysninger";
+}
+<div class="card mt-4" style="max-width: 800px; margin: 0 auto;">
+    <h2 style="margin-bottom: 1.5rem;">Indtast dine oplysninger</h2>
+
+    <form method="post">
+        <input type="hidden" asp-for="customer.Id" />
+        <input type="hidden" asp-for="customer.UserId" />
+        <div class="grid-equal-2">
+            <div class="form-group">
+                <label asp-for="customer.FirstName" class="form-label">Fornavn</label>
+                <input asp-for="customer.FirstName" class="form-control" />
+                <span asp-validation-for="customer.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="customer.LastName" class="form-label">Efternavn</label>
+                <input asp-for="customer.LastName" class="form-control" />
+                <span asp-validation-for="customer.LastName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="customer.Email" class="form-label">E-mail</label>
+            <input asp-for="customer.Email" class="form-control" type="email" />
+            <span asp-validation-for="customer.Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="customer.PhoneNumber" class="form-label">Telefonnummer</label>
+            <input asp-for="customer.PhoneNumber" class="form-control" />
+            <span asp-validation-for="customer.PhoneNumber" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="customer.Address" class="form-label">Adresse</label>
+            <input asp-for="customer.Address" class="form-control" />
+            <span asp-validation-for="customer.Address" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Gå til oversigt</button>
+    </form>
+</div>

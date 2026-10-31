@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebShop</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ShoppingCart.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a class="navbar-brand" asp-area="" asp-page="/Index">WebShop</a>
+           @*  <ul class="nav-links">
+                <li><a asp-area="" asp-page="/Index">Hjem</a></li>
+                <li><a asp-area="" asp-page="/Privacy">Privacy</a></li>
+            </ul> *@
+            <div class="nav-auth">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form method="post" asp-page="/Account/SignOut" style="display:inline;">
+                        <button type="submit" class="btn btn-outline-secondary btn-sm">Log ud</button>
+                    </form>
+                }
+                else
+                {
+                    <a asp-page="/Account/SignIn" class="btn btn-success btn-sm">Log ind</a>
+                }
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            &copy; 2026 - WebShop - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,48 @@
+﻿@page
+@model ShoppingCart.Pages.Checkout.SummaryModel
+@{
+    ViewData["Title"] = "Checkout - Bekræft ordre";
+}
+<div class="mt-4">
+    <h1 style="margin-bottom: 1.5rem;">Bekræft din bestilling</h1>
+    <div asp-validation-summary="All"></div>
+    <div class="grid-equal-2 mt-4">
+        <!-- Kolonne med leveringsoplysninger -->
+        <div>
+            <div class="card">
+                <h2 style="margin-bottom: 1rem;">Dine oplysninger</h2>
+                <p style="margin-bottom: 0.5rem;"><strong>Navn:</strong> @Model.customer.FirstName @Model.customer.LastName</p>
+                <p style="margin-bottom: 0.5rem;"><strong>E-mail:</strong> @Model.customer.Email</p>
+                <p style="margin-bottom: 0.5rem;"><strong>Telefon:</strong> @Model.customer.PhoneNumber</p>
+                <p style="margin-bottom: 1.25rem;"><strong>Adresse:</strong> @Model.customer.Address</p>
+
+                <a asp-page="Step1" class="btn btn-outline-secondary btn-sm">Ret oplysninger</a>
+            </div>
+        </div>
+
+        <!-- Kolonne med indkøbskurv -->
+        <div>
+            <div class="card">
+                <h2 style="margin-bottom: 1rem;">Din indkøbskurv</h2>
+                <div class="list-group mb-3">
+                    @foreach (var item in Model.Cart.CartItems)
+                    {
+                        <div class="list-item" style="padding: 0.75rem 1rem;">
+                            <div>
+                                <h3 style="margin: 0; font-weight: 600;">@item.ProductName</h3>
+                                <small class="text-muted">Antal: @item.Quantity</small>
+                            </div>
+                            <span class="text-muted">@(item.Price * item.Quantity) kr.</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Knapper til at gå tilbage eller gennemføre -->
+    <form method="post" asp-page-handler="Confirm" class="mt-4" style="display: flex; gap: 1rem;">
+        <a asp-page="/Account/Step1" class="btn btn-secondary">Tilbage</a>
+        <button type="submit" class="btn btn-success">Gennemfør køb</button>
+    </form>
+</div>

@@ -1,0 +1,59 @@
+﻿@page
+@model ShoppingCart.Pages.CartModel
+@{
+    ViewData["Title"] = "Din indkøbskurv";
+}
+<div class="card">
+    <h2 style="margin-bottom: 1.5rem;">Din indkøbskurv</h2>
+
+    @if (Model.Cart.CartItems == null || !Model.Cart.CartItems.Any())
+    {
+        <p class="lead">Din kurv er tom.</p>
+        <p style="margin-top: 1rem;"><a href="/Index" class="btn btn-primary">Fortsæt med at handle</a></p>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Produkt</th>
+                    <th>Stykpris</th>
+                    <th>Antal</th>
+                    <th>Subtotal</th>
+                    <th>Handling</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Cart.CartItems)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.Price.ToString("0.00") kr.</td>
+                        <td>
+                            <!-- Antal vises her. Kan udbygges med opdatering -->
+                            @item.Quantity
+                        </td>
+                        <td>@((item.Price * item.Quantity).ToString("0.00")) kr.</td>
+                        <td>
+                            <!-- Form til at slette et linjeelement (Ekstra forslag) -->
+                            <form method="post" asp-page-handler="RemoveItem">
+                                <input type="hidden" name="CartItemId" value="@item.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm" style="background-color: var(--danger-color); color: white; border: none; padding: 0.3rem 0.6rem; border-radius: 4px; cursor: pointer;">-</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="mt-4">
+            <h3>Total pris: @Model.Cart.TotalPrice.ToString("0.00") kr.</h3>
+        </div>
+
+        <div class="mt-4">
+            <a href="/Checkout/Step1" class="btn btn-success">
+                Tjek-ud
+            </a>
+        </div>
+    }
+</div>

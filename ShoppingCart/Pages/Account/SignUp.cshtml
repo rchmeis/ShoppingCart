@@ -1,0 +1,60 @@
+﻿@page
+@model ShoppingCart.Pages.Account.SignUpModel
+@{
+    ViewData["Title"] = "Opret bruger";
+}
+<div class="card" style="max-width: 650px; margin: 2rem auto;">
+    <h2 style="margin-bottom: 1.5rem; text-align: center;">Opret ny konto</h2>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <form method="post">
+        <div style="margin-bottom: 2rem;">
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Brugeroplysninger</h3>
+            <div class="form-group">
+                <label asp-for="Username" class="form-label">Brugernavn</label>
+                <input asp-for="Username" class="form-control" required />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="form-label">Adgangskode</label>
+                <input asp-for="Password" type="password" class="form-control" required />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 2rem;">
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Personlige oplysninger</h3>
+            <div class="grid-equal-2">
+                <div class="form-group">
+                    <label asp-for="Customer.FirstName" class="form-label">Fornavn</label>
+                    <input asp-for="Customer.FirstName" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Customer.LastName" class="form-label">Efternavn</label>
+                    <input asp-for="Customer.LastName" class="form-control" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Customer.Email" class="form-label">E-mail</label>
+                <input asp-for="Customer.Email" type="email" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Customer.Address" class="form-label">Adresse</label>
+                <input asp-for="Customer.Address" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Customer.PhoneNumber" class="form-label">Telefonnummer (valgfrit)</label>
+                <input asp-for="Customer.PhoneNumber" class="form-control" />
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Opret konto</button>
+    </form>
+</div>

@@ -1,0 +1,75 @@
+﻿@page
+@model IndexSessionModel
+@{
+    ViewData["Title"] = "Session Indkøbskurv";
+}
+@using ShoppingCartLibrary.Models;
+@using ShoppingCartLibrary.Services;
+
+<h1>Webshop - Session Eksempel</h1>
+
+<table class="product-table">
+    <thead>
+        <tr>
+            <th>Navn</th>
+            <th>Pris</th>
+            <th>Handlinger</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Product product in Model.allProducts)
+        {
+            <tr>
+                <td>@product.ProductName</td>
+                <td>@product.Price</td>
+                <td>
+                    <div class="action-buttons">
+                        <form method="post" asp-page-handler="AddToCart">
+                            <input type="hidden" name="Id" value="@product.ProductId" />
+                            <button type="submit" class="btn-add">Læg i kurv</button>
+                        </form>
+                        @if (HttpContext.Session.GetCart().CartItems.Any(p => p.ProductId == product.ProductId))
+                        {
+                            <form method="post" asp-page-handler="RemoveFromCart">
+                                <input type="hidden" name="Id" value="@product.ProductId" />
+                                <button type="submit" class="btn-remove">Fjern fra kurv</button>
+                            </form>
+                        }
+                      @*   @if (CartSessionHelper.GetCartFromSession(HttpContext).Products.Any(p => p.ProductId == product.ProductId))
+                        {
+                            <form method="post" asp-page-handler="RemoveFromCart">
+                                <input type="hidden" name="Id" value="@product.ProductId" />
+                                <button type="submit" class="btn-remove">Fjern fra kurv</button>
+                            </form>
+                        } *@
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h2>Din Indkøbskurv (Gemt i Server RAM via Session)</h2>
+
+@if (!Model.PresentCart.CartItems.Any())
+{
+    <p>Din kurv er tom.</p>
+}
+else
+{
+    <ul>
+        @foreach (CartItem item in Model.PresentCart.CartItems)
+        {
+            <li>
+                <strong>@item.ProductName</strong> - 
+                Antal: @item.Quantity stk. - 
+                Pris i alt: @(item.Price * item.Quantity) kr.
+            </li>            
+        }
+        <li>Total:@HttpContext.Session.GetCart().TotalPrice</li>
+        @* <li>Total: @CartSessionHelper.GetCartFromSession(HttpContext).TotalPrice</li> *@
+    </ul>
+    <div><a asp-page="/Checkout/Step1">Check ud</a></div>
+}
