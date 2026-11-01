@@ -1,3 +1,5 @@
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShoppingCartLibrary.Services;
@@ -6,11 +8,11 @@ namespace ShoppingCart.Pages.Account
 {
     public class SignInModel : PageModel
     {
-        private readonly AuthenticationService _authService;
+        private readonly AuthenticationService _authService;    
 
-        public SignInModel(AuthenticationService authService)
+        public SignInModel(AuthenticationService authService, CartService cartService)
         {
-            _authService = authService;
+            _authService = authService;       
         }
 
         [BindProperty]

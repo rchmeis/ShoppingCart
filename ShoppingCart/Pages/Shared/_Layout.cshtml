@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html lang="da">
 <head>
     <meta charset="utf-8" />
@@ -6,6 +7,8 @@
     <title>@ViewData["Title"] - WebShop</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ShoppingCart.styles.css" asp-append-version="true" />
+    <script src="https://kit.fontawesome.com/038ecbfaa0.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
     <header>
@@ -16,14 +19,36 @@
                 <li><a asp-area="" asp-page="/Privacy">Privacy</a></li>
             </ul> *@
             <div class="nav-auth">
+                @{
+                    
+                    int cartCount = 0;
+                    if (Context.Request.Cookies.TryGetValue("ItemCount", out var countStr) && int.TryParse(countStr, out var parsedCount))
+                    {
+                        cartCount = parsedCount;
+                    }
+                }
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <form method="post" asp-page="/Account/SignOut" style="display:inline;">
-                        <button type="submit" class="btn btn-outline-secondary btn-sm">Log ud</button>
-                    </form>
+                    <div>
+                        <a asp-page="/Account/MyProfile"><i class="fa-solid fa-user"></i></a>
+                    </div>
+                    <div>
+                        <small>@cartCount</small>
+                        <a asp-page="/Cart"><i class="fa-solid fa-basket-shopping"></i></a>
+                    </div>
+                    <div>
+                        <form method="post" asp-page="/Account/SignOut" style="display:inline;">
+                            <button type="submit" class="btn btn-outline-secondary btn-sm">Log ud</button>
+                        </form>
+                    </div>
+                   
                 }
                 else
                 {
+                    <div>
+                        <small>@cartCount</small>
+                        <a asp-page="/Cart"><i class="fa-solid fa-basket-shopping"></i></a>
+                    </div>
                     <a asp-page="/Account/SignIn" class="btn btn-success btn-sm">Log ind</a>
                 }
             </div>

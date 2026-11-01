@@ -16,6 +16,7 @@ namespace ShoppingCart.Pages.Account
         // Håndterer POST (anbefalet for sikkerhed mod CSRF ved logud)
         public async Task<IActionResult> OnPostAsync()
         {
+            Response.Cookies.Delete("ItemCount");
             await _authService.LogoutAsync(HttpContext);
             return RedirectToPage("/Index");
         }

@@ -1,0 +1,59 @@
+/* CSS for Cart view */
+/* --- Cart Page Styling --- */
+.cart-title {
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.cart-action-group {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+/* Base style for quantity modifier buttons */
+.btn-cart-qty {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px; /* Forces an exact width */
+    height: 32px; /* Forces an exact height */
+    padding: 0; /* Removes padding since we use fixed dimensions */
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    /* Interactive Hover Effect (Slight Growth & Hue Shift) */
+    .btn-cart-qty:hover {
+        transform: scale(1.12);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-cart-qty:active {
+        transform: scale(1.02);
+    }
+
+/* Add Button (+) - Brighter Green with Darker Green Hover */
+.btn-cart-add {
+    background-color: #2d965e; /* Brighter, vibrant green */
+}
+
+    .btn-cart-add:hover {
+        background-color: var(--primary-color); /* Shifts to deep primary green */
+    }
+
+/* Remove Button (-) - Red with Darker Red Hover */
+.btn-cart-remove {
+    background-color: var(--danger-color);
+}
+
+    .btn-cart-remove:hover {
+        background-color: #9b1c1c; /* Deeper darker red */
+    }

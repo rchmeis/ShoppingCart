@@ -41,6 +41,9 @@ namespace ShoppingCartLibrary.Services
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+            var cart = _cartService.GetOrCreateCart(context, user.Id);
+            context.Response.Cookies.Append("ItemCount", cart.CartItems.Sum(ci => ci.Quantity).ToString());
             return true;           
         }
 

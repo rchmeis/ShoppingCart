@@ -78,6 +78,32 @@ header {
     align-items: center;
 }
 
+/* --- Icons & Interactive Effects --- */
+.icon,
+i[class^="fa-"],
+i[class*=" fa-"],
+i[class^="bi-"],
+i[class*=" bi-"],
+svg {
+    color: var(--primary-color);
+    fill: var(--primary-color); /* Ensures SVGs match */
+    transition: color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+
+    /* Interactive Hover Effect */
+    .icon:hover,
+    i[class^="fa-"]:hover,
+    i[class*=" fa-"]:hover,
+    i[class^="bi-"]:hover,
+    i[class*=" bi-"]:hover,
+    svg:hover {
+        color: var(--primary-hover);
+        fill: var(--primary-hover);
+        transform: scale(1.1); /* Subtle zoom effect */
+        cursor: pointer;
+    }
+
+
 /* Main Container */
 .container {
     max-width: 1200px;
@@ -317,6 +343,26 @@ tr:last-child td {
 .mb-3 {
     margin-bottom: 1rem;
 }
+
+footer {
+    background-color: #e4e8e4; /* Soft sage-tinted middle grey */
+    border-top: 1px solid #cbd5cb;
+    padding: 1.5rem 0;
+    text-align: center;
+    color: #4a554a; /* Muted dark green-grey text for good readability */
+    font-size: 0.9rem;
+    margin-top: auto;
+}
+
+    footer a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
 
 /*html {
   font-size: 14px;

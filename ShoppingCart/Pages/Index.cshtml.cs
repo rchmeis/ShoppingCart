@@ -29,6 +29,8 @@ namespace ShoppingCart.Pages
             Products = _productRepo.GetAll();
             int? userId = GetCurrentUserId();
             Cart = _cartService.GetOrCreateCart(HttpContext, userId);
+
+            Response.Cookies.Append("ItemCount", (Cart.CartItems.Sum(ci=>ci.Quantity).ToString())); //session cookie
         }
 
         public IActionResult OnPostAddToCart()
@@ -37,6 +39,7 @@ namespace ShoppingCart.Pages
             Cart cart = _cartService.GetOrCreateCart(HttpContext, userId);
 
             _cartService.AddItemToCart(cart.CartId, ProductId, 1);
+            Response.Cookies.Append("ItemCount", (cart.CartItems.Sum(ci=>ci.Quantity)+1).ToString());
             return RedirectToPage();
         }
 
