@@ -25,17 +25,9 @@ namespace ShoppingCart.Pages.Checkout
         public void OnGet()
         {
             int? userId = GetCurrentUserId();
-           
-            Cart = _cartService.GetOrCreateCart(HttpContext, userId);
-           
-            if (userId.HasValue)
-            {
-                customer = _customerService.GetByUserId(userId.Value) ?? new();
-            }
-            else
-            {
-                customer = HttpContext.Session.GetCustomerData();
-            }            
+            Cart = _cartService.GetOrCreateCart(HttpContext, userId);     //kurv SKAL hentes fra databasen.  
+            customer = HttpContext.Session.GetCustomerData();             //kundeinfo SKAL hentes fra session! da de kan have valgt anden addresse end den der er gemt i databasen(på deres profil)
+                     
             // --- SESSION-KODE (Udkommet til demonstration af sessions) ---
             // Cart = HttpContext.Session.GetCart();
         }
@@ -45,19 +37,18 @@ namespace ShoppingCart.Pages.Checkout
             int? userId = GetCurrentUserId();
             var cart = _cartService.GetOrCreateCart(HttpContext, userId);
 
-            // Hent kundedata (enten via db hvis logget ind, eller fra formular/session)
-            if (userId.HasValue)
+            customer = HttpContext.Session.GetCustomerData() ?? new();
+            if (customer== null) //hvis sessionen udløb ell. lign
             {
-                customer = _customerService.GetByUserId(userId.Value) ?? new();
+                return RedirectToPage("Step1");
             }
-            else { customer = HttpContext.Session.GetCustomerData()??new(); }
-                        
+
             // --- SESSION-KODE (Udkommet til demonstration af sessioncart) ---
             //var cartSession = HttpContext.Session.GetCart();
 
             try
             {
-                // 1. Gem ordren i databasen og ryd kurven samt gæstecookie hvis gæst
+                // Gemmer ordren i databasen og rydder kurven samt gæstecookie hvis gæst!
                 _orderService.CompleteCheckout(HttpContext, cart, customer);
             }
             catch (Exception ex)
@@ -66,7 +57,7 @@ namespace ShoppingCart.Pages.Checkout
                 return Page();
             }
 
-            // 2. Ryd sessionen hvis den blev brugt
+            // Ryd sessionen !
             // HttpContext.Session.Remove("MyCartSessionKey");
             HttpContext.Session.Remove("CustomerWizardDataKey");
          
