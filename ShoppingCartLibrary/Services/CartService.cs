@@ -67,6 +67,12 @@ namespace ShoppingCartLibrary.Services
         // Merge-logik ved login
         public void MergeAnonymousCartToUser(HttpContext httpContext, int userId)
         {
+            var deleteCookieOptions = new CookieOptions             //best practice at slette cookie med samme options som da den blev oprettet
+            {
+                HttpOnly = true,
+                IsEssential = true
+            };
+
             // 1. Tjek om der overhovedet er en gæste-cookie
             string anonymousId = httpContext.Request.Cookies[CookieName];
             if (string.IsNullOrEmpty(anonymousId)) return;
@@ -76,7 +82,7 @@ namespace ShoppingCartLibrary.Services
             if (anonymousCart == null || !anonymousCart.CartItems.Any())
             {
                 // Hvis gæstekurven er tom eller ikke findes, slet blot cookien
-                httpContext.Response.Cookies.Delete(CookieName);
+                httpContext.Response.Cookies.Delete(CookieName, deleteCookieOptions);
                 return;
             }
 
@@ -106,12 +112,8 @@ namespace ShoppingCartLibrary.Services
                 _cartRepo.DeleteCart(anonymousCart.CartId);
             }
 
-            // 4. Slet altid gæste-cookien i browseren efter endt login/merge
-            httpContext.Response.Cookies.Delete(CookieName, new CookieOptions
-            {
-                HttpOnly = true,
-                IsEssential = true
-            });
+            // HUSK! Slet gæste-cookien i browseren efter endt login/merge
+            httpContext.Response.Cookies.Delete(CookieName, deleteCookieOptions);
         }
     }
 }
